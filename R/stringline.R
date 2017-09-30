@@ -31,16 +31,21 @@
 #' }
 stringline <- function() {
 
-  timetable <- data.frame(station = c("London", "Birmingham", "Edinburgh"),
-                          dist_miles = c(0, 126, 292),
-                          time = c(hm("08:38"), hm("09:35"), hm("15:24")) +
-                            + ymd_hms("2000-01-01 00:00:00"))
+  timetable <- data.frame(station = rep(c("London", "Birmingham", "Edinburgh"), 2),
+                          dist_miles = rep(c(0, 126, 292), 2),
+                          time = c(hm("08:38"), hm("09:35"), hm("15:24"),
+                                   hm("16:38"), hm("15:35"), hm("10:04")) +
+                            + ymd_hms("2000-01-01 00:00:00"),
+                          journey = c(1, 1, 1, 2, 2, 2),
+                          direction = c("N", "N", "N", "S", "S", "S"))
 
-  ggplot(timetable, aes(time, dist_miles)) +
-    geom_path() +
+  stringline <- ggplot(timetable, aes(time, dist_miles)) +
+    geom_path(aes(group = journey)) +
     scale_y_continuous(breaks = timetable[["dist_miles"]],
                        labels = timetable[["station"]]) +
     theme(axis.title.x=element_blank(),
           axis.title.y=element_blank())
+
+  return(stringline)
 }
 
