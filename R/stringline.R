@@ -31,18 +31,24 @@
 #' }
 stringline <- function() {
 
-  timetable <- data.frame(station = rep(c("London", "Birmingham", "Edinburgh"), 2),
-                          dist_miles = rep(c(0, 126, 292), 2),
-                          time = c(hm("08:38"), hm("09:35"), hm("15:24"),
-                                   hm("16:38"), hm("15:35"), hm("10:04")) +
-                            + ymd_hms("2000-01-01 00:00:00"),
-                          journey = c(1, 1, 1, 2, 2, 2),
-                          direction = c("N", "N", "N", "S", "S", "S"))
+  distances <- data.frame(station = c("London", "Birmingham", "Edinburgh"),
+                         dist_miles = c(0, 126, 292))
 
-  stringline <- ggplot(timetable, aes(time, dist_miles)) +
+  times <- data.frame(direction = c("N", "S"),
+                           London = c("08:38", "16:38"),
+                           Birmingham = c("09:35", "15:35"),
+                           Edinburgh = c("15:24", "10:04"))
+
+  time_table <- times %>%
+    mutate(journey = 1:n()) %>%
+    gather(key = "station", value = "time", -direction, -journey) %>%
+    mutate(time = hm(time) + ymd_hms("2000-01-01 00:00:00")) %>%
+    left_join(distances)
+
+  stringline <- ggplot(time_table, aes(time, dist_miles)) +
     geom_path(aes(group = journey)) +
-    scale_y_continuous(breaks = timetable[["dist_miles"]],
-                       labels = timetable[["station"]]) +
+    scale_y_continuous(breaks = time_table[["dist_miles"]],
+                       labels = time_table[["station"]]) +
     theme(axis.title.x=element_blank(),
           axis.title.y=element_blank())
 
