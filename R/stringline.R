@@ -37,6 +37,10 @@ stringline <- function() {
                             + ymd_hms("2000-01-01 00:00:00"))
 
   ggplot(timetable, aes(time, dist_miles)) +
-    geom_path()
+    geom_path() +
+    scale_y_continuous(breaks = timetable[["dist_miles"]],
+                       labels = timetable[["station"]]) +
+    theme(axis.title.x=element_blank(),
+          axis.title.y=element_blank())
 }
 
