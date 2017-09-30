@@ -54,10 +54,12 @@ string_line <- function() {
     mutate(journey = 1:n()) %>%
     gather(key = "station", value = "time", -direction, -journey) %>%
     mutate(time = hm(time) + ymd_hms("2000-01-01 00:00:00")) %>%
-    left_join(distances)
+    left_join(distances) %>%
+    filter(!is.na(time))
 
   string_line <- ggplot(time_table, aes(time, dist_miles)) +
     geom_path(aes(group = journey)) +
+    geom_point() +
     scale_y_continuous(breaks = time_table[["dist_miles"]],
                        labels = time_table[["station"]]) +
     theme(axis.title.x=element_blank(),
