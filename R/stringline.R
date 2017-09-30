@@ -29,29 +29,40 @@
 #' \dontrun{
 #' sum("a")
 #' }
-stringline <- function() {
+string_line <- function() {
 
-  distances <- data.frame(station = c("London", "Birmingham", "Edinburgh"),
-                         dist_miles = c(0, 126, 292))
+  raw_csv <- read.csv(check.names = FALSE,
+                              system.file("extdata",
+                                          "london_edinburgh_test.csv",
+                                          package = "stringliner"))
 
-  times <- data.frame(direction = c("N", "S"),
-                           London = c("08:38", "16:38"),
-                           Birmingham = c("09:35", "15:35"),
-                           Edinburgh = c("15:24", "10:04"))
+  distances <- raw_csv %>%
+    names() %>%
+    .[substring(., 1, 8) == "station|"] %>%
+    substring(9) %>%
+    strsplit("|", fixed = TRUE) %>%
+    transpose() %>%
+    map(unlist) %>%
+    `names<-`(c("station", "dist_miles")) %>%
+    data.frame() %>%
+    `[[<-`("dist_miles",
+           value = as.numeric(levels(.[["dist_miles"]]))[.[["dist_miles"]]])
 
-  time_table <- times %>%
+  time_table <- raw_csv %>%
+    `names<-`(c(names(raw_csv)[substring(names(raw_csv), 1, 8) != "station|"],
+              as.character(distances[["station"]]))) %>%
     mutate(journey = 1:n()) %>%
     gather(key = "station", value = "time", -direction, -journey) %>%
     mutate(time = hm(time) + ymd_hms("2000-01-01 00:00:00")) %>%
     left_join(distances)
 
-  stringline <- ggplot(time_table, aes(time, dist_miles)) +
+  string_line <- ggplot(time_table, aes(time, dist_miles)) +
     geom_path(aes(group = journey)) +
     scale_y_continuous(breaks = time_table[["dist_miles"]],
                        labels = time_table[["station"]]) +
     theme(axis.title.x=element_blank(),
           axis.title.y=element_blank())
 
-  return(stringline)
+  return(string_line)
 }
 
