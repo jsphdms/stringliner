@@ -33,8 +33,11 @@ string_line <- function() {
 
   raw_csv <- read.csv(check.names = FALSE,
                               system.file("extdata",
-                                          "london_edinburgh_test.csv",
+                                          # "london_edinburgh_test.csv",
+                                          "glq_edb_via_fkk.csv",
                                           package = "stringliner"))
+
+  # add distance along tracks or as the crow flies (not the car drive)
 
   distances <- raw_csv %>%
     names() %>%
