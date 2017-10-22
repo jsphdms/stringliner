@@ -17,7 +17,8 @@
 #' @examples
 #' string_line()
 #' string_line("london_edinburgh_test")
-
+#'
+#' @export
 string_line <- function(route = "glq_edb_via_fkk") {
 
   raw_csv <- read.csv(check.names = FALSE,

@@ -1,0 +1,40 @@
+---
+output:
+  md_document:
+    variant: markdown_github
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
+
+# stringliner
+
+Use stringliner to plot a recreation of E.J. Marey's graphical train schedule (aka a stringline chart)
+
+## Example
+
+Currently this function only plots data saved in the extdata directory. Plot the Monday to Friday route between Edinburgh and Glasgow like this (correct as of 22nd October 2017):
+
+```{r example}
+library(tidyverse)
+library(lubridate)
+library(stringliner)
+
+string_line()
+```
+
+## Installation
+
+Install stringliner from GitHub like this:
+
+```{r gh-installation, eval = FALSE}
+# install.packages("devtools")
+devtools::install_github("jsphdms/stringliner")
+```
