@@ -65,6 +65,7 @@ string_line <- function() {
     geom_point() +
     scale_y_continuous(breaks = time_table[["dist_miles"]],
                        labels = time_table[["station"]]) +
+    scale_x_datetime(date_labels = "%H:%M") +
     theme(axis.title.x=element_blank(),
           axis.title.y=element_blank())
 
