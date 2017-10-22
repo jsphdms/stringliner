@@ -1,43 +1,29 @@
-#' Sum of vector elements.
+#' Plot a recreation of E.J. Marey's graphical train schedule (aka a stringline
+#' chart).
 #'
-#' \code{sum} returns the sum of all the values present in its arguments.
+#' Stations are plotted vertically according to their relative distance. This
+#' means the slope of each line corresponds to the speed of the train.
 #'
-#' This is a generic function: methods can be defined for it directly
-#' or via the \code{\link{Summary}} group generic. For this to work properly,
-#' the arguments \code{...} should be unnamed, and dispatch is on the
-#' first argument.
+#' This plot requires two data tables: a timetable and the distances between
+#' stations. This can potentially lead to redundancy (repetition of stations) so
+#' the demonstration datasets store these two tables in a special format as csv
+#' files. The timetable is organised with a row for each journey and a column
+#' for each station. Relative distances are stored in the headers. This function
+#' parses this dataset and then plots a stringline chart.
 #'
-#' @param ... Numeric, complex, or logical vectors.
-#' @param na.rm A logical scalar. Should missing values (including NaN)
-#'   be removed?
-#' @return If all inputs are integer and logical, then the output
-#'   will be an integer. If integer overflow
-#'   \url{http://en.wikipedia.org/wiki/Integer_overflow} occurs, the output
-#'   will be NA with a warning. Otherwise it will be a length-one numeric or
-#'   complex vector.
-#'
-#'   Zero-length vectors have sum 0 by definition. See
-#'   \url{http://en.wikipedia.org/wiki/Empty_sum} for more details.
+#' @param route String. The name of a csv file (without extension) in the
+#'   extdata directory
+#' @return A plot object. A stringline chart.
 #' @examples
-#' sum(1:10)
-#' sum(1:5, 6:10)
-#' sum(F, F, F, T, T)
-#'
-#' sum(.Machine$integer.max, 1L)
-#' sum(.Machine$integer.max, 1)
-#'
-#' \dontrun{
-#' sum("a")
-#' }
-string_line <- function() {
+#' string_line()
+#' string_line("london_edinburgh_test")
+
+string_line <- function(route = "glq_edb_via_fkk") {
 
   raw_csv <- read.csv(check.names = FALSE,
                               system.file("extdata",
-                                          # "london_edinburgh_test.csv",
-                                          "glq_edb_via_fkk.csv",
+                                          paste0(route, ".csv"),
                                           package = "stringliner"))
-
-  # add distance along tracks or as the crow flies (not the car drive)
 
   distances <- raw_csv %>%
     names() %>%
@@ -71,4 +57,3 @@ string_line <- function() {
 
   return(string_line)
 }
-
