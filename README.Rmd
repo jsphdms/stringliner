@@ -20,7 +20,7 @@ Use stringliner to plot a recreation of E.J. Marey's graphical train schedule (a
 
 ## Example
 
-Currently this function only plots data saved in the extdata directory. Plot the Monday to Friday route between Edinburgh and Glasgow like this (correct as of 22nd October 2017):
+Currently this function only plots data saved in the extdata directory. Plot the Monday to Friday route between Edinburgh and Glasgow like this (correct until 9th December 2017):
 
 ```{r example}
 library(tidyverse)

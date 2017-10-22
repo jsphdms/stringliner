@@ -48,13 +48,19 @@ string_line <- function(route = "glq_edb_via_fkk") {
     filter(!is.na(time))
 
   string_line <- ggplot(time_table, aes(time, dist_miles)) +
-    geom_path(aes(group = journey)) +
-    geom_point() +
+    geom_path(aes(group = journey), alpha = 0.2) +
+    geom_point(fill = "black", size = 1) +
     scale_y_continuous(breaks = time_table[["dist_miles"]],
                        labels = time_table[["station"]]) +
     scale_x_datetime(date_labels = "%H:%M") +
+    labs(title = "Scotrail trains between Edinburgh and Glasgow",
+         subtitle = "Monday to Friday (correct until 9th December 2017)") +
     theme(axis.title.x=element_blank(),
-          axis.title.y=element_blank())
+          axis.title.y=element_blank(),
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          panel.background = element_blank(),
+          axis.ticks = element_blank())
 
   return(string_line)
 }
