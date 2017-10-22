@@ -7,7 +7,7 @@ Use stringliner to plot a recreation of E.J. Marey's graphical train schedule (a
 Example
 -------
 
-Currently this function only plots data saved in the extdata directory. Plot the Monday to Friday route between Edinburgh and Glasgow like this:
+Currently this function only plots data saved in the extdata directory. Plot the Monday to Friday route between Edinburgh and Glasgow like this (correct until 9th December 2017):
 
 ``` r
 library(tidyverse)
@@ -27,6 +27,7 @@ library(lubridate)
 #> 
 #>     date
 library(stringliner)
+
 string_line()
 #> Warning: attributes are not identical across measure variables;
 #> they will be dropped
@@ -36,3 +37,13 @@ string_line()
 ```
 
 ![](README-example-1.png)
+
+Installation
+------------
+
+Install stringliner from GitHub like this:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("jsphdms/stringliner")
+```
